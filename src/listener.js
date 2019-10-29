@@ -1,5 +1,6 @@
 const app = require('express')();
 const bodyParser = require('body-parser');
+const parseProblemData = require('./dataParser.js')
 
 
 function listenerConstructor() {
@@ -11,10 +12,7 @@ function listenerConstructor() {
 
 	app.post('/', (req, res) => {
 		const data = req.body;
-
-		console.log('Full body:');
-		console.log(JSON.stringify(data, null, 4));
-
+        parseProblemData(data);
 		res.sendStatus(200);
 	});
 

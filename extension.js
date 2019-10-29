@@ -1,5 +1,5 @@
 const vscode = require('vscode');
-const listenerConstructor = require('./src/listenerToCompetitiveCompanion.js');
+const listenerConstructor = require('./src/listener.js');
 
 
 function startCompetitiveCompanionServer() {
