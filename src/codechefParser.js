@@ -1,4 +1,3 @@
-const fileCreator = require('./fileCreator.js');
 const constants = require('./constants.js');
 
 function codechefParser(data) {

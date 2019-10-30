@@ -1,6 +1,7 @@
 const app = require('express')();
 const bodyParser = require('body-parser');
 const parseProblemData = require('./dataParser.js')
+const fileCreator = require('./fileCreator.js')
 
 
 function listenerConstructor() {
@@ -12,7 +13,8 @@ function listenerConstructor() {
 
 	app.post('/', (req, res) => {
 		const data = req.body;
-        parseProblemData(data);
+		var parsedData = parseProblemData(data);
+		fileCreator(parsedData);
 		res.sendStatus(200);
 	});
 
