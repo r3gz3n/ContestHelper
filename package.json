@@ -19,7 +19,18 @@
 				"command": "extension.startCompetitiveCompanionServer",
 				"title": "Start competitve companion server"
 			}
-		]
+		],
+		"configuration": {
+			"title": "Contest Helper Configuration",
+			"properties": {
+				"contesthelper.directory-path": {
+					"type": "string",
+					"default": "D:\\",
+					"description": "Set the path of the directory in which you want the extension to work in",
+					"scope": "resource"
+				}
+			}
+		}
 	},
 	"scripts": {
 		"test": "node ./test/runTest.js"
