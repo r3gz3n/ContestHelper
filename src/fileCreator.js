@@ -40,12 +40,14 @@ function generateFiles(parsedData) {
         createFolder(pathOfContestDir);
         var pathOfProblemDir = path.join(pathOfContestDir, parsedData.problemId);
         createFolder(pathOfProblemDir);
-        var pathOfSourceFile = path.join(pathOfProblemDir, parsedData.filename + ".cpp");
         createTestFiles(pathOfProblemDir, parsedData.tests);
+        var pathOfSourceFile = path.join(pathOfProblemDir, parsedData.filename + ".cpp");
         createSourceFile(pathOfSourceFile);
+        return pathOfSourceFile;
     }
     else {
         console.error("Error occurred while parsing data!!!");
+        return null;
     }
 }
 

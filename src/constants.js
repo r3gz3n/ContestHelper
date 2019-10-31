@@ -9,7 +9,10 @@ const CODECHEF = {
     "PRACTICE": "practice"
 }
 
+const EDITOR = 'code';
+
 module.exports = {
     CODEFORCES: CODEFORCES,
-    CODECHEF: CODECHEF
+    CODECHEF: CODECHEF,
+    EDITOR:EDITOR
 }

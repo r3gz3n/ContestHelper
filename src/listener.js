@@ -1,8 +1,8 @@
 const app = require('express')();
 const bodyParser = require('body-parser');
-const parseProblemData = require('./dataParser.js')
-const fileCreator = require('./fileCreator.js')
-
+const parseProblemData = require('./dataParser.js');
+const fileCreator = require('./fileCreator.js');
+const openFile = require('./fileOpener.js')
 
 function listenerConstructor() {
 	// This function will start the server and listen to the given port
@@ -14,7 +14,9 @@ function listenerConstructor() {
 	app.post('/', (req, res) => {
 		const data = req.body;
 		var parsedData = parseProblemData(data);
-		fileCreator(parsedData);
+		var pathOfSourceFile = fileCreator(parsedData);
+		if (pathOfSourceFile)
+			openFile(pathOfSourceFile);
 		res.sendStatus(200);
 	});
 
