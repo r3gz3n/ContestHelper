@@ -10,9 +10,13 @@ const CODECHEF = {
 }
 
 const EDITOR = 'code';
+const SUPPORTED_WEBSITES = ['codeforces', 'codechef'];
+const CONFIG_FILE_NAME = 'config.json';
 
 module.exports = {
     CODEFORCES: CODEFORCES,
     CODECHEF: CODECHEF,
-    EDITOR:EDITOR
+    EDITOR:EDITOR,
+    SUPPORTED_WEBSITES: SUPPORTED_WEBSITES,
+    CONFIG_FILE_NAME: CONFIG_FILE_NAME
 }
