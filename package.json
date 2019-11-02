@@ -16,8 +16,12 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.startCompetitiveCompanionServer",
-				"title": "Start competitve companion server"
+				"command": "extension.startServer",
+				"title": "ContestHelper: Start Server"
+			},
+			{
+				"command": "extension.editTestFile",
+				"title": "ContestHelper: Edit Test File"
 			}
 		],
 		"configuration": {

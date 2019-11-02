@@ -8,6 +8,7 @@ baseParser.prototype.parseData = function() {
     parsedData.timelimit = this.data.timeLimit;
     parsedData.filename = this.data.languages.java.taskClass;
     parsedData.tests = this.data.tests;
+    parsedData.numberoftests = parseInt(this.data.tests.length);
     return parsedData;
 }
 

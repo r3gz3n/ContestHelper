@@ -12,11 +12,17 @@ const CODECHEF = {
 const EDITOR = 'code';
 const SUPPORTED_WEBSITES = ['codeforces', 'codechef'];
 const CONFIG_FILE_NAME = 'config.json';
+const INPUT_PREFIX = "in";
+const OUTPUT_PREFIX = "out";
+const TXT = ".txt";
 
 module.exports = {
     CODEFORCES: CODEFORCES,
     CODECHEF: CODECHEF,
     EDITOR:EDITOR,
     SUPPORTED_WEBSITES: SUPPORTED_WEBSITES,
-    CONFIG_FILE_NAME: CONFIG_FILE_NAME
+    CONFIG_FILE_NAME: CONFIG_FILE_NAME,
+    INPUT_PREFIX: INPUT_PREFIX,
+    OUTPUT_PREFIX: OUTPUT_PREFIX,
+    TXT: TXT
 }

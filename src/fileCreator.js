@@ -18,8 +18,8 @@ function writeIntoFile(pathOfFile, data) {
 
 function createTestFiles(dir, tests) {
     for (var idx = 0;idx < tests.length;++idx) {
-        var inPath = path.join(dir, "in" + idx.toString() + ".txt");
-        var outPath = path.join(dir, "out" + idx.toString() + ".txt");
+        var inPath = path.join(dir, constants.INPUT_PREFIX + idx.toString() + constants.TXT);
+        var outPath = path.join(dir, constants.OUTPUT_PREFIX + idx.toString() + constants.TXT);
         writeIntoFile(inPath, tests[idx].input);
         writeIntoFile(outPath, tests[idx].output);
     }
@@ -32,7 +32,6 @@ function createSourceFile(pathOfSourceFile) {
 }
 
 function createConfigFile(pathOfConfigFile, parsedData) {
-    console.log(parsedData);
     writeIntoFile(pathOfConfigFile, JSON.stringify(parsedData));
 }
 
@@ -51,7 +50,7 @@ function generateFiles(parsedData) {
         createSourceFile(pathOfSourceFile);
         var pathOfConfigFile = path.join(pathOfProblemDir, constants.CONFIG_FILE_NAME);
         createConfigFile(pathOfConfigFile, parsedData);
-        return pathOfSourceFile;
+        return [pathOfSourceFile, pathOfContestDir];
     }
     else {
         console.error("Error occurred while parsing data!!!");
