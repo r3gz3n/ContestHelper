@@ -22,6 +22,10 @@
 			{
 				"command": "extension.editTestFile",
 				"title": "ContestHelper: Edit Test File"
+			},
+			{
+				"command": "extension.runAllTests",
+				"title": "ContestHelper: Run All Test Files"
 			}
 		],
 		"configuration": {
@@ -31,6 +35,18 @@
 					"type": "string",
 					"default": "D:\\",
 					"description": "Set the path of the directory in which you want the extension to work in",
+					"scope": "resource"
+				},
+				"contesthelper.cpp-compiler": {
+					"type": "string",
+					"default": "g++",
+					"description": "Set the path of the compiler",
+					"scope": "resource"
+				},
+				"contesthelper.compiler-flags": {
+					"type": "string",
+					"default": "-Wall -Werror -Wl,--stack=268435456 -O2 -std=c++11",
+					"description": "Set the flag that will passed during compilation. Default: -Wall ,-Wall -Werror -Wl,--stack=268435456 -O2 -std=c++17",
 					"scope": "resource"
 				}
 			}

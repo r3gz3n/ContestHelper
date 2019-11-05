@@ -1,14 +1,13 @@
 const vscode = require('vscode');
-const fs = require('fs');
 const path = require('path');
 const constants = require('./constants');
 const fileOpener = require('./fileOpener');
+const getJsonConfig = require('./getJsonConfig');
 
 
-function isValidTestNumber(testNumber) {
+async function isValidTestNumber(testNumber) {
     var filepath = path.parse(vscode.window.activeTextEditor.document.fileName);
-    var rawdata = fs.readFileSync(path.join(filepath.dir, constants.CONFIG_FILE_NAME));
-    var config = JSON.parse(rawdata);
+    var config = await getJsonConfig(filepath.dir);
     var intTestNumber = parseInt(testNumber);
     if (!isNaN(intTestNumber) && (intTestNumber < config.numberoftests))
         return [true, filepath.dir, intTestNumber.toString()];
@@ -19,11 +18,9 @@ async function editTest() {
     var testNumber = await vscode.window.showInputBox({
         placeHolder: 'Enter the test number'
     });
-    const [isValid, pathOfContestDir, validTestNumber] = isValidTestNumber(testNumber);
+    const [isValid, pathOfContestDir, validTestNumber] = await isValidTestNumber(testNumber);
     if (isValid === true) {
-        var inputPath = path.join(pathOfContestDir, constants.INPUT_PREFIX + validTestNumber + constants.TXT);
-        var outputPath = path.join(pathOfContestDir, constants.OUTPUT_PREFIX + validTestNumber + constants.TXT);
-        fileOpener.openTestFile(inputPath, outputPath);
+        fileOpener.openTestFile(pathOfContestDir, validTestNumber);
     }
     else {
         console.error("Wrong test number!!!");

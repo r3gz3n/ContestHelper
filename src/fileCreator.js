@@ -18,8 +18,8 @@ function writeIntoFile(pathOfFile, data) {
 
 function createTestFiles(dir, tests) {
     for (var idx = 0;idx < tests.length;++idx) {
-        var inPath = path.join(dir, constants.INPUT_PREFIX + idx.toString() + constants.TXT);
-        var outPath = path.join(dir, constants.OUTPUT_PREFIX + idx.toString() + constants.TXT);
+        var inPath = path.join(dir, "in" + idx.toString() + ".txt");
+        var outPath = path.join(dir, "out" + idx.toString() + ".txt");
         writeIntoFile(inPath, tests[idx].input);
         writeIntoFile(outPath, tests[idx].output);
     }
@@ -45,7 +45,6 @@ function generateFiles(parsedData) {
         createFolder(pathOfContestDir);
         var pathOfProblemDir = path.join(pathOfContestDir, parsedData.problemid);
         createFolder(pathOfProblemDir);
-        createTestFiles(pathOfProblemDir, parsedData.tests);
         var pathOfSourceFile = path.join(pathOfProblemDir, parsedData.filename + ".cpp");
         createSourceFile(pathOfSourceFile);
         var pathOfConfigFile = path.join(pathOfProblemDir, constants.CONFIG_FILE_NAME);
@@ -58,4 +57,16 @@ function generateFiles(parsedData) {
     }
 }
 
-module.exports = generateFiles;
+function deleteFile(pathOfFile) {
+    fs.unlink(pathOfFile, (err) => {
+        if (err) {
+            console.error(err);
+        }
+    });
+}
+
+module.exports = {
+    generateFiles: generateFiles,
+    writeIntoFile: writeIntoFile,
+    deleteFile: deleteFile
+}
