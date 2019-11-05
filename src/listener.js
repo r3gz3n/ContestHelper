@@ -1,8 +1,8 @@
 const app = require('express')();
 const bodyParser = require('body-parser');
-const parseProblemData = require('./dataParser.js')
-const fileCreator = require('./fileCreator.js')
-
+const parseProblemData = require('./dataParser');
+const fileCreator = require('./fileCreator');
+const fileOpener = require('./fileOpener')
 
 function listenerConstructor() {
 	// This function will start the server and listen to the given port
@@ -14,7 +14,15 @@ function listenerConstructor() {
 	app.post('/', (req, res) => {
 		const data = req.body;
 		var parsedData = parseProblemData(data);
-		fileCreator(parsedData);
+		const [pathOfSourceFile, pathOfContestDir] = fileCreator(parsedData);
+		if (pathOfSourceFile)
+			fileOpener.openFile(pathOfSourceFile);
+		else 
+			console.error("Unable to open the source file!!!");
+		if (pathOfContestDir) 
+			fileOpener.openFolder(pathOfContestDir);
+		else
+			console.error("Unable to open the contest directory!!!")
 		res.sendStatus(200);
 	});
 

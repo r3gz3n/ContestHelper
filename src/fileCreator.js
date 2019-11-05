@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path')
-const configuration = require('./configuration.js');
+const configuration = require('./configuration');
+const constants = require('./constants')
 
 function createFolder(dir) {
     if (!fs.existsSync(dir))
@@ -8,10 +9,10 @@ function createFolder(dir) {
     console.log(dir + " created successfully!!!");
 }
 
-function writeIntoFile(pathToContestDir, data) {
-    fs.writeFile(pathToContestDir, data, {flag: 'w'}, (err) => {
+function writeIntoFile(pathOfFile, data) {
+    fs.writeFile(pathOfFile, data, {flag: 'w'}, (err) => {
         if (err) console.error(err);
-        console.log(pathToContestDir + " created successfully!!!");
+        console.log(pathOfFile + " created successfully!!!");
     });
 }
 
@@ -30,23 +31,42 @@ function createSourceFile(pathOfSourceFile) {
     console.log(pathOfSourceFile + " created successfully!!!");
 }
 
+function createConfigFile(pathOfConfigFile, parsedData) {
+    writeIntoFile(pathOfConfigFile, JSON.stringify(parsedData));
+}
+
 function generateFiles(parsedData) {
     if (typeof parsedData !== 'undefined' && parsedData) {
         var baseDir = configuration.Configuration.getDirectoryPath();
         createFolder(baseDir);
         var pathOfWebsiteDir = path.join(baseDir, parsedData.website);
         createFolder(pathOfWebsiteDir);
-        var pathOfContestDir = path.join(pathOfWebsiteDir, parsedData.contestId);
+        var pathOfContestDir = path.join(pathOfWebsiteDir, parsedData.contestid);
         createFolder(pathOfContestDir);
-        var pathOfProblemDir = path.join(pathOfContestDir, parsedData.problemId);
+        var pathOfProblemDir = path.join(pathOfContestDir, parsedData.problemid);
         createFolder(pathOfProblemDir);
         var pathOfSourceFile = path.join(pathOfProblemDir, parsedData.filename + ".cpp");
-        createTestFiles(pathOfProblemDir, parsedData.tests);
         createSourceFile(pathOfSourceFile);
+        var pathOfConfigFile = path.join(pathOfProblemDir, constants.CONFIG_FILE_NAME);
+        createConfigFile(pathOfConfigFile, parsedData);
+        return [pathOfSourceFile, pathOfContestDir];
     }
     else {
         console.error("Error occurred while parsing data!!!");
+        return null;
     }
 }
 
-module.exports = generateFiles;
+function deleteFile(pathOfFile) {
+    fs.unlink(pathOfFile, (err) => {
+        if (err) {
+            console.error(err);
+        }
+    });
+}
+
+module.exports = {
+    generateFiles: generateFiles,
+    writeIntoFile: writeIntoFile,
+    deleteFile: deleteFile
+}

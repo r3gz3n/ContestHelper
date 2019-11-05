@@ -1,16 +1,21 @@
-const constants = require('./constants.js');
+const constants = require('./constants');
+var baseParser = require('./baseParser');
 
 function codeforcesParser(data) {
-    var parsedData = {};
+    this.data = data;
+}
+
+codeforcesParser.prototype = new baseParser();
+
+codeforcesParser.prototype.parseData = function() {
+    var parsedData = baseParser.prototype.parseData.call(this);
     parsedData.website = constants.CODEFORCES.WEBSITE;
-    var url = data.url.split('/');
+    var url = this.data.url.split('/');
     if (url[3] === constants.CODEFORCES.PROBLEMSET)
-        parsedData.contestId = url[5];
+        parsedData.contestid = url[5];
     else 
-        parsedData.contestId = url[4];
-    parsedData.problemId = url[6];
-    parsedData.filename = data.languages.java.taskClass;
-    parsedData.tests = data.tests;
+        parsedData.contestid = url[4];
+    parsedData.problemid = url[6];
     return parsedData;
 }
 module.exports = codeforcesParser;

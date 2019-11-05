@@ -1,19 +1,24 @@
-const constants = require('./constants.js');
+const constants = require('./constants');
+var baseParser = require('./baseParser');
 
 function codechefParser(data) {
-    var parsedData = {};
+    this.data = data;
+}
+
+codechefParser.prototype = new baseParser();
+
+codechefParser.prototype.parseData = function() {
+    var parsedData = baseParser.prototype.parseData.call(this);
     parsedData.website = constants.CODECHEF.WEBSITE;
-    var url = data.url.split('/');
+    var url = this.data.url.split('/');
     if (url[3] === constants.CODECHEF.PROBLEMS) {
-        parsedData.contestId = constants.CODECHEF.PRACTICE;
-        parsedData.problemId = url[4];
+        parsedData.contestid = constants.CODECHEF.PRACTICE;
+        parsedData.problemid = url[4];
     }
     else {
-        parsedData.contestId = url[3];
-        parsedData.problemId = url[5];
+        parsedData.contestid = url[3];
+        parsedData.problemid = url[5];
     }
-    parsedData.filename = data.languages.java.taskClass;
-    parsedData.tests = data.tests;
     return parsedData;
 }
 
