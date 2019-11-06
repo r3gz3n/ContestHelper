@@ -20,28 +20,11 @@ function openFolder(pathOfFolder) {
 async function openTestFile(problemDir, testNumber) {
   var pathOfInputFile = path.join(problemDir, `in${testNumber}` + constants.TXT);
   var pathOfOutputFile = path.join(problemDir, `out${testNumber}` + constants.TXT);
-  var config = await getJsonConfig(problemDir);
-  fileCreator.writeIntoFile(pathOfInputFile, config.tests[testNumber].input);
-  fileCreator.writeIntoFile(pathOfOutputFile, config.tests[testNumber].output);
   vscode.workspace.openTextDocument(pathOfInputFile).then(document => {
     vscode.window.showTextDocument(document, vscode.ViewColumn.Beside);
-    vscode.workspace.onDidSaveTextDocument((document) => {
-      var text = document.getText();
-      config.tests[testNumber].input = text;
-    });
-    vscode.workspace.onDidCloseTextDocument((document) => {
-      fileCreator.deleteFile(pathOfInputFile);
-    });
   });
   vscode.workspace.openTextDocument(pathOfOutputFile).then(document => {
     vscode.window.showTextDocument(document, vscode.ViewColumn.Beside);
-    vscode.workspace.onDidSaveTextDocument((document) => {
-      var text = document.getText();
-      config.tests[testNumber].output = text;
-      vscode.workspace.onDidCloseTextDocument((document) => {
-        fileCreator.deleteFile(pathOfInputFile);
-      });
-    });
   });
 }
 

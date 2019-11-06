@@ -14,7 +14,7 @@ function listenerConstructor() {
 	app.post('/', (req, res) => {
 		const data = req.body;
 		var parsedData = parseProblemData(data);
-		const [pathOfSourceFile, pathOfContestDir] = fileCreator(parsedData);
+		const [pathOfSourceFile, pathOfContestDir] = fileCreator.generateFiles(parsedData);
 		if (pathOfSourceFile)
 			fileOpener.openFile(pathOfSourceFile);
 		else 
