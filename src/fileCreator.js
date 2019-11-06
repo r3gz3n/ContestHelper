@@ -47,8 +47,10 @@ function generateFiles(parsedData) {
         createFolder(pathOfProblemDir);
         var pathOfSourceFile = path.join(pathOfProblemDir, parsedData.filename + ".cpp");
         createSourceFile(pathOfSourceFile);
+        createTestFiles(pathOfProblemDir, parsedData.tests);
         var pathOfConfigFile = path.join(pathOfProblemDir, constants.CONFIG_FILE_NAME);
         createConfigFile(pathOfConfigFile, parsedData);
+        console.log(parsedData.key);
         return [pathOfSourceFile, pathOfContestDir];
     }
     else {
@@ -57,16 +59,19 @@ function generateFiles(parsedData) {
     }
 }
 
-function deleteFile(pathOfFile) {
-    fs.unlink(pathOfFile, (err) => {
-        if (err) {
-            console.error(err);
-        }
-    });
+function readFile(pathOfFile) {
+    try {
+        var content = fs.readFileSync(pathOfFile).toString();
+        return content;
+    }
+    catch (err) {
+        console.error(err);
+        return null;
+    }
 }
 
 module.exports = {
     generateFiles: generateFiles,
     writeIntoFile: writeIntoFile,
-    deleteFile: deleteFile
+    readFile: readFile
 }
