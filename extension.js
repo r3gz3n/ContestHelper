@@ -2,6 +2,8 @@ const vscode = require('vscode');
 const listenerConstructor = require('./src/listener');
 const editTest = require('./src/editTest');
 const compileAndRun = require('./src/compile');
+const getWebView = require('./src/getWebView');
+var resultsPanel = null;
 
 function startServer() {
 	try {
@@ -20,8 +22,14 @@ function editTestFile() {
 	editTest();
 }
 
-function runAllTests() {
-	compileAndRun(-1);
+async function runAllTests() {
+	var results = await compileAndRun(-1);
+	
+		console.log(results);
+		resultPanel = getWebView(resultsPanel, results);
+		if (resultsPanel !== null)
+			resultsPanel.reveal();
+	
 }
 
 /**
