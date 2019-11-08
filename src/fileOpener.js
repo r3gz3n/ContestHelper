@@ -1,8 +1,6 @@
 const vscode = require('vscode');
 const constants = require('./constants');
 const path = require('path');
-const getJsonConfig = require('./getJsonConfig');
-const fileCreator = require('./fileCreator');
 
 
 function openFile(pathOfSourceFile) {

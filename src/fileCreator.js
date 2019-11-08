@@ -50,7 +50,6 @@ function generateFiles(parsedData) {
         createTestFiles(pathOfProblemDir, parsedData.tests);
         var pathOfConfigFile = path.join(pathOfProblemDir, constants.CONFIG_FILE_NAME);
         createConfigFile(pathOfConfigFile, parsedData);
-        console.log(parsedData.key);
         return [pathOfSourceFile, pathOfContestDir];
     }
     else {

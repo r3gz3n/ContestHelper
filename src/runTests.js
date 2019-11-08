@@ -5,55 +5,63 @@ const getJsonConfig = require('./getJsonConfig');
 const constants = require('./constants');
 const fileCreator = require('./fileCreator');
 
-async function runSpecifcTest(testNumber, filepath, config) {
-    var result = {};
+function callbackClosure(data, callback) {
+    return function() {
+        return callback(data);
+    }
+}
+
+function runSpecifcTest(testNumber, filepath, config, finalResult) {
+    let result = {};
     const timelimit = parseInt(config.timelimit);
     console.log(`Running test #${testNumber}`);
     var pathOfExecutable = path.join(filepath.dir, filepath.name);
     var pathOfInputFile = path.join(filepath.dir, constants.INPUT_PREFIX + testNumber + constants.TXT);
     var pathOfOutputFile = path.join(filepath.dir, constants.OUTPUT_PREFIX + testNumber + constants.TXT);
-    console.log(pathOfExecutable);
-    var runProcess = child_process.spawn(pathOfExecutable.toString(), ['<', pathOfInputFile], {timeout: timelimit});
-    setTimeout(() => {
-        runProcess.kill();
-    }, timelimit);
-    result.input = await fileCreator.readFile(pathOfInputFile).replace(/\r?\n|\r/g, "\n").trim();
-    runProcess.stdin.write(result.input);
-;
-    runProcess.stdout.on('data', (data) => {
-        result.myOutput = data.toString().replace(/\r?\n|\r/g, "\n").trim();
-        result.correctOutput = fileCreator.readFile(pathOfOutputFile).replace(/\r?\n|\r/g, "\n").trim();
-        if (result.myOutput === result.correctOutput)
+    var input, correctOutput, programOutput, verdict;
+    correctOutput = fileCreator.readFile(pathOfOutputFile).replace(/\r?\n|\r/g, "\n").trim();
+    input = fileCreator.readFile(pathOfInputFile);
+    var runProcess = child_process.spawnSync(pathOfExecutable.toString(), ['<', pathOfInputFile], {
+        timeout: timelimit,
+        input: input
+    });
+    if (runProcess.status === 0) {
+        programOutput = runProcess.stdout.toString().replace(/\r?\n|\r/g, "\n").trim();
+        if (programOutput === correctOutput) {
+            verdict = "AC";
             console.log("Correct output");
-        else {
-            console.log(`Expected output:\n${result.correctOutput}`);
-            console.log(`Your output:\n${result.myOutput}`);
         }
-    });
-    runProcess.stderr.on('data', (data) => {
-        console.error(`Stderr: ${data}`);
-    });
-    runProcess.on('exit', code => {
-        if (code === 0) console.log("Ran successfully");
-        else console.log("Error will running");
-    });
-    return result;
+        else {
+            verdict = "WA";
+            console.log(`Expected output:\n${correctOutput}`);
+            console.log(`Your output:\n${programOutput}`);
+        }            
+        result = {
+            input: input,
+            programOutput: programOutput,
+            correctOutput: correctOutput,
+            verdict: verdict
+        };
+        finalResult.push(result);
+    }
+    else console.log(`Error while running the program ${runProcess.status}`);
 }
 
-function runTests(flag) {
+async function runTests(flag) {
     var finalResult = [];
     var filepath = path.parse(vscode.window.activeTextEditor.document.fileName);
-    getJsonConfig(filepath.dir).then( config => {
-        if (flag === -1) {
-            const numberOfTests = parseInt(config.numberoftests);
-            for (var testNumber = 0;testNumber < numberOfTests;++testNumber) {
-                finalResult.push(runSpecifcTest(testNumber, filepath, config));
-            }
+    var config = await getJsonConfig(filepath.dir);
+    
+    if (flag === -1) {
+        const numberOfTests = parseInt(config.numberoftests);
+        for (let testNumber = 0;testNumber < numberOfTests;++testNumber) {
+            runSpecifcTest(testNumber, filepath, config, finalResult);
         }
-        else {
-            finalResult.push(runSpecifcTest(flag, filepath, config));
-        }
-    });
+    }
+    else {
+        runSpecifcTest(flag, filepath, config, finalResult);
+    }
+    
     return finalResult;
 }
 
