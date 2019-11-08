@@ -19,24 +19,22 @@ function runSpecifcTest(testNumber, filepath, config, finalResult) {
     var pathOfInputFile = path.join(filepath.dir, constants.INPUT_PREFIX + testNumber + constants.TXT);
     var pathOfOutputFile = path.join(filepath.dir, constants.OUTPUT_PREFIX + testNumber + constants.TXT);
     var input, correctOutput, programOutput, verdict;
-    var runProcess = child_process.spawn(pathOfExecutable.toString(), ['<', pathOfInputFile], {timeout: timelimit});
-    setTimeout(() => {
-        verdict = "TLE";
-        runProcess.kill();
-    }, timelimit);
     correctOutput = fileCreator.readFile(pathOfOutputFile).replace(/\r?\n|\r/g, "\n").trim();
     input = fileCreator.readFile(pathOfInputFile);
-    runProcess.stdin.write(input);
-    runProcess.stdout.on('data', (data) => {
-        programOutput = data.toString().replace(/\r?\n|\r/g, "\n").trim();
+    var runProcess = child_process.spawnSync(pathOfExecutable.toString(), ['<', pathOfInputFile], {
+        timeout: timelimit,
+        input: input
+    });
+    if (runProcess.status === 0) {
+        programOutput = runProcess.stdout.toString().replace(/\r?\n|\r/g, "\n").trim();
         if (programOutput === correctOutput) {
             verdict = "AC";
             console.log("Correct output");
         }
         else {
             verdict = "WA";
-            console.log(`Expected output:\n${result.correctOutput}`);
-            console.log(`Your output:\n${result.programOutput}`);
+            console.log(`Expected output:\n${correctOutput}`);
+            console.log(`Your output:\n${programOutput}`);
         }            
         result = {
             input: input,
@@ -45,30 +43,25 @@ function runSpecifcTest(testNumber, filepath, config, finalResult) {
             verdict: verdict
         };
         finalResult.push(result);
-    });
-    runProcess.stderr.on('data', (data) => {
-        console.error(`Stderr: ${data}`);
-    });
-    runProcess.on('exit', code => {
-        if (code === 0) console.log("Ran successfully");
-        else console.log("Error will running");
-    });
+    }
+    else console.log(`Error while running the program ${runProcess.status}`);
 }
 
-function runTests(flag) {
+async function runTests(flag) {
     var finalResult = [];
     var filepath = path.parse(vscode.window.activeTextEditor.document.fileName);
-    getJsonConfig(filepath.dir).then( config => {
-        if (flag === -1) {
-            const numberOfTests = parseInt(config.numberoftests);
-            for (let testNumber = 0;testNumber < numberOfTests;++testNumber) {
-                runSpecifcTest(testNumber, filepath, config, finalResult);
-            }
+    var config = await getJsonConfig(filepath.dir);
+    
+    if (flag === -1) {
+        const numberOfTests = parseInt(config.numberoftests);
+        for (let testNumber = 0;testNumber < numberOfTests;++testNumber) {
+            runSpecifcTest(testNumber, filepath, config, finalResult);
         }
-        else {
-            runSpecifcTest(flag, filepath, config, finalResult);
-        }
-    });
+    }
+    else {
+        runSpecifcTest(flag, filepath, config, finalResult);
+    }
+    
     return finalResult;
 }
 

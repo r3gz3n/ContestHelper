@@ -3,14 +3,14 @@ function getWebViewContent(results) {
     for(var result of results) {
         resultHtml += `
             <div class="tests">
-                Verdict: <br/>
-                ${result.verdict}
-                Input: <br/>
-                ${result.input}
-                Expected output: <br/>
-                ${result.correctOutput}
-                Program output: <br/>
-                ${result.programOutput}
+                Verdict: 
+                <pre>${result.verdict}</pre>
+                Input: 
+                <pre>${result.input}</pre>
+                Expected output: 
+                <pre>${result.correctOutput}</pre>
+                Program output: 
+                <pre>${result.programOutput}</pre>
             </div>
         `;
     }

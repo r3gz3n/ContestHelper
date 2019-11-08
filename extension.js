@@ -24,12 +24,12 @@ function editTestFile() {
 
 async function runAllTests() {
 	var results = await compileAndRun(-1);
-	
-		console.log(results);
-		resultPanel = getWebView(resultsPanel, results);
-		if (resultsPanel !== null)
-			resultsPanel.reveal();
-	
+	resultPanel = await getWebView(resultsPanel, results);
+	if (resultsPanel !== null)
+		resultsPanel.reveal();
+
+	return results;	
+			
 }
 
 /**
