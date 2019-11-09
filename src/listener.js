@@ -2,12 +2,13 @@ const app = require('express')();
 const bodyParser = require('body-parser');
 const parseProblemData = require('./dataParser');
 const fileCreator = require('./fileCreator');
-const fileOpener = require('./fileOpener')
+const fileOpener = require('./fileOpener');
+const configuration = require('./configuration');
 
 function listenerConstructor() {
 	// This function will start the server and listen to the given port
 	// Make sure port is same as mention in the Competitive Companion extension in your browser
-	const port = 8080;
+	const port = configuration.Configuration.getPortNumber();
 
 	app.use(bodyParser.json());
 
