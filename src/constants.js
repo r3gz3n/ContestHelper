@@ -15,6 +15,8 @@ const CONFIG_FILE_NAME = 'config.json';
 const INPUT_PREFIX = "in";
 const OUTPUT_PREFIX = "out";
 const TXT = ".txt";
+const RUN_ALL = false;
+const RUN_SPECIFIC = true;
 
 module.exports = {
     CODEFORCES: CODEFORCES,
@@ -24,5 +26,7 @@ module.exports = {
     CONFIG_FILE_NAME: CONFIG_FILE_NAME,
     INPUT_PREFIX: INPUT_PREFIX,
     OUTPUT_PREFIX: OUTPUT_PREFIX,
-    TXT: TXT
+    TXT: TXT,
+    RUN_ALL: RUN_ALL,
+    RUN_SPECIFIC: RUN_SPECIFIC
 }

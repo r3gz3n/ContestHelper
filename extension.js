@@ -3,6 +3,7 @@ const listenerConstructor = require('./src/listener');
 const editTest = require('./src/editTest');
 const compileAndRun = require('./src/compile');
 const getWebView = require('./src/getWebView');
+const constants = require('./src/constants');
 var resultsPanel = null;
 
 function startServer() {
@@ -22,14 +23,21 @@ function editTestFile() {
 	editTest();
 }
 
-async function runAllTests() {
-	var results = await compileAndRun(-1);
-	resultPanel = await getWebView(resultsPanel, results);
+async function generateWebView(results) {
+	resultsPanel = await getWebView(resultsPanel, results);
 	if (resultsPanel !== null)
 		resultsPanel.reveal();
+}
 
-	return results;	
-			
+async function runTests() {
+	var results = await compileAndRun(constants.RUN_ALL);
+	generateWebView(results);
+}
+
+
+async function runSpecificTest() {
+	var results = await compileAndRun(constants.RUN_SPECIFIC);
+	generateWebView(results);
 }
 
 /**
@@ -41,10 +49,13 @@ function activate(context) {
 	startServer();
 	var editTestFileCommand = vscode.commands.registerCommand('extension.editTestFile', () => editTestFile());
 
-	var runAllTestsCommand = vscode.commands.registerCommand('extension.runAllTests', () => runAllTests());
+	var runAllTestsCommand = vscode.commands.registerCommand('extension.runAllTests', () => runTests());
+
+	var runSpecificTestCommand = vscode.commands.registerCommand('extension.runSpecificTest', () => runSpecificTest());
 
 	context.subscriptions.push(editTestFileCommand);
 	context.subscriptions.push(runAllTestsCommand);
+	context.subscriptions.push(runSpecificTestCommand);
 }
 exports.activate = activate;
 

@@ -26,6 +26,10 @@
 			{
 				"command": "extension.runAllTests",
 				"title": "ContestHelper: Run All Test Files"
+			},
+			{
+				"command": "extension.runSpecificTest",
+				"title": "ContestHelper: Run Specific Test File"
 			}
 		],
 		"configuration": {
