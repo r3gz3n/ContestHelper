@@ -48,6 +48,12 @@
 					"default": "-Wall -Werror -Wl,--stack=268435456 -O2 -std=c++11",
 					"description": "Set the flag that will passed during compilation. Default: -Wall ,-Wall -Werror -Wl,--stack=268435456 -O2 -std=c++17",
 					"scope": "resource"
+				},
+				"contesthelper.port-number": {
+					"type": "string",
+					"default": "8080",
+					"description": "Set the port number at which competitive companion will send the data",
+					"scope": "resource"
 				}
 			}
 		}

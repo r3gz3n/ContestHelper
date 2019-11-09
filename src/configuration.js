@@ -16,5 +16,9 @@ class Configuration {
     static getCompiler() {
         return this.getSetting('cpp-compiler').trim();
     }
+
+    static getPortNumber() {
+        return this.getSetting('port-number').trim();
+    }
 }
 exports.Configuration = Configuration;
