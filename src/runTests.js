@@ -19,7 +19,7 @@ function runSpecifcTest(testNumber, filepath, config, finalResult) {
     var pathOfExecutable = path.join(filepath.dir, filepath.name);
     var pathOfInputFile = path.join(filepath.dir, constants.INPUT_PREFIX + testNumber + constants.TXT);
     var pathOfOutputFile = path.join(filepath.dir, constants.OUTPUT_PREFIX + testNumber + constants.TXT);
-    var input, correctOutput, programOutput, verdict;
+    var input, correctOutput, programOutput, verdict, message;
     correctOutput = fileCreator.readFile(pathOfOutputFile).replace(/\r?\n|\r/g, "\n").trim();
     input = fileCreator.readFile(pathOfInputFile);
     var runProcess = child_process.spawnSync(pathOfExecutable.toString(), ['<', pathOfInputFile], {
@@ -30,10 +30,12 @@ function runSpecifcTest(testNumber, filepath, config, finalResult) {
         programOutput = runProcess.stdout.toString().replace(/\r?\n|\r/g, "\n").trim();
         if (programOutput === correctOutput) {
             verdict = "AC";
+            message = "OK";
             console.log("Correct output");
         }
         else {
             verdict = "WA";
+            message = "Wrong Answer";
             console.log("Wrong Answer");
         }            
         result = {
@@ -41,7 +43,8 @@ function runSpecifcTest(testNumber, filepath, config, finalResult) {
             input: input,
             programOutput: programOutput,
             correctOutput: correctOutput,
-            verdict: verdict
+            verdict: verdict,
+            message: message
         };
         finalResult.push(result);
     }

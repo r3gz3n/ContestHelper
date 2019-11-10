@@ -13,7 +13,9 @@ async function compileAndRunHelper(flag) {
     var compilerArgs = [sourceFileLocation, '-o', pathOfExecutable.toString()];
     var inputFlags = configuration.Configuration.getCompilerFlags();
     var results;
-    compilerArgs = compilerArgs.concat(inputFlags.split(' '));
+    var inputArgs = inputFlags.split(' ');
+    if (inputArgs.length > 0)
+        compilerArgs = compilerArgs.concat();
     // TODO(r3gz3n): validate compiler and check if command exists
     const compileProcess = child_process.spawnSync(cppCompiler, compilerArgs);
     if (compileProcess.status === 0) {
@@ -21,8 +23,10 @@ async function compileAndRunHelper(flag) {
         vscode.window.showInformationMessage(`ContestHelper: ${pathOfSourceFile.base} compiled successfully!!!`);
         results = await runTests(flag);
     }
-    else
+    else {
+        console.error(compileProcess.stderr.toString());
         vscode.window.showErrorMessage("ContestHelper: Compilation error!!!");
+    }
     return results;
 }
 
