@@ -26,8 +26,10 @@ function createTestFiles(dir, tests) {
 }
 
 function createSourceFile(pathOfSourceFile) {
-    if (!fs.existsSync(pathOfSourceFile))
-        fs.closeSync(fs.openSync(pathOfSourceFile, 'w'));
+    if (!fs.existsSync(pathOfSourceFile)) {
+        var snippet = fs.readFileSync(configuration.Configuration.getCodeSnippetPath());
+        writeIntoFile(pathOfSourceFile, snippet);
+    }
     console.log(pathOfSourceFile + " created successfully!!!");
 }
 
