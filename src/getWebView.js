@@ -1,15 +1,15 @@
 const vscode = require('vscode');
 const getWebViewContent = require('./getWebViewContent');
 
-function getWebView(panel, results) {
-    if (panel === null) {
-        panel = vscode.window.createWebviewPanel("results", "Result", vscode.ViewColumn.Two);
+function getWebView(panels, results) {
+    if (panels.resultsPanel === null) {
+        panels.resultsPanel = vscode.window.createWebviewPanel("results", "Result", vscode.ViewColumn.Beside);
     }
-    panel.webview.html = getWebViewContent(results);
-    panel.onDidDispose(() => {
-        panel = null;
+    panels.resultsPanel.webview.html = getWebViewContent(results);
+    panels.resultsPanel.onDidDispose(() => {
+        panels.resultsPanel.dispose();
+        panels.resultsPanel = null;
     });
-    return panel;
 }
 
 module.exports = getWebView;
