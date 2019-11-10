@@ -20,5 +20,9 @@ class Configuration {
     static getPortNumber() {
         return this.getSetting('port-number').trim();
     }
+
+    static getCodeSnippetPath() {
+        return this.getSetting('code-snippet').trim();
+    }
 }
 exports.Configuration = Configuration;

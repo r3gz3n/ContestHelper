@@ -58,6 +58,12 @@
 					"default": "8080",
 					"description": "Set the port number at which competitive companion will send the data",
 					"scope": "resource"
+				},
+				"contesthelper.code-snippet": {
+					"type": "string",
+					"default": "D:\\codeforces\\template.cpp",
+					"description": "Set the path of the code template",
+					"scope": "resource"
 				}
 			}
 		}
