@@ -37,6 +37,7 @@ function runSpecifcTest(testNumber, filepath, config, finalResult) {
             console.log("Wrong Answer");
         }            
         result = {
+            testNumber: testNumber,
             input: input,
             programOutput: programOutput,
             correctOutput: correctOutput,

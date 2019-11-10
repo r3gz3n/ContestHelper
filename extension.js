@@ -4,7 +4,7 @@ const editTest = require('./src/editTest');
 const compileAndRun = require('./src/compile');
 const getWebView = require('./src/getWebView');
 const constants = require('./src/constants');
-var resultsPanel = null;
+var panels = {resultsPanel: null};
 
 function startServer() {
 	try {
@@ -23,10 +23,10 @@ function editTestFile() {
 	editTest();
 }
 
-async function generateWebView(results) {
-	resultsPanel = await getWebView(resultsPanel, results);
-	if (resultsPanel !== null)
-		resultsPanel.reveal();
+function generateWebView(results) {
+	getWebView(panels, results);
+	if (panels.resultsPanel !== null)
+		panels.resultsPanel.reveal();
 }
 
 async function runTests() {
