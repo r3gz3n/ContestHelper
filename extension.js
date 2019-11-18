@@ -46,13 +46,14 @@ async function runSpecificTest() {
 function activate(context) {
 	// Activating ContestHelper
 	console.log('Activating ContestHelper...');
-	startServer();
+	var startServerCommand = vscode.commands.registerCommand('extension.startServer', () => startServer());
+
 	var editTestFileCommand = vscode.commands.registerCommand('extension.editTestFile', () => editTestFile());
 
 	var runAllTestsCommand = vscode.commands.registerCommand('extension.runAllTests', () => runTests());
 
 	var runSpecificTestCommand = vscode.commands.registerCommand('extension.runSpecificTest', () => runSpecificTest());
-
+	context.subscriptions.push(startServerCommand);
 	context.subscriptions.push(editTestFileCommand);
 	context.subscriptions.push(runAllTestsCommand);
 	context.subscriptions.push(runSpecificTestCommand);
