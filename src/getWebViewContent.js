@@ -2,21 +2,19 @@ function getWebViewContent(results) {
     var resultHtml = "";
     var allTestsPassed = true;
     for(var result of results) {
-        if (result.verdict !== 'TLE') {
-            resultHtml += `
-                <div>
-                    Test #${result.testNumber}:</br>
-                    Input: 
-                    <pre>${result.input}</pre>
-                    Expected output: 
-                    <pre>${result.correctOutput}</pre>
-                    Program output: 
-                    <pre>${result.programOutput}</pre>
-                    Verdict: ${result.message}
-                </div>
-                ------------------------------------------------------
-            `;
-        }
+        resultHtml += `
+            <div>
+                Test #${result.testNumber}:</br>
+                Input: 
+                <pre>${result.input}</pre>
+                Expected output: 
+                <pre>${result.correctOutput}</pre>
+                Program output: 
+                <pre>${result.programOutput}</pre>
+                Verdict: ${result.message} <br/>
+            </div>
+            ------------------------------------------------------
+        `;
     }
     for(var result of results) {
         if (result.verdict !== 'AC') {
