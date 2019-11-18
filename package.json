@@ -10,7 +10,10 @@
 		"Other"
 	],
 	"activationEvents": [
-		"*"
+		"onCommand:extension.startServer",
+		"onCommand:extension.editTestFile",
+		"onCommand:extension.runAllTests",
+		"onCommand:extension.runSpecificTest"
 	],
 	"main": "./extension.js",
 	"publisher": "r3gz3n",
