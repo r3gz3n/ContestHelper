@@ -13,6 +13,11 @@
 		"*"
 	],
 	"main": "./extension.js",
+	"publisher": "r3gz3n",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/r3gz3n/ContestHelper"
+	  },
 	"contributes": {
 		"commands": [
 			{
