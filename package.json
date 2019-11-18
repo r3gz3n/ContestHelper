@@ -2,7 +2,7 @@
 	"name": "contesthelper",
 	"displayName": "ContestHelper",
 	"description": "VS code plugin for Competitive programming",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"engines": {
 		"vscode": "^1.39.0"
 	},
@@ -17,7 +17,7 @@
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/r3gz3n/ContestHelper"
-	  },
+	},
 	"contributes": {
 		"commands": [
 			{
