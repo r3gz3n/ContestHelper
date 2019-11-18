@@ -6,11 +6,6 @@ const constants = require('./constants');
 const fileCreator = require('./fileCreator');
 const getFileNumber = require('./getFileNumber');
 
-function callbackClosure(data, callback) {
-    return function() {
-        return callback(data);
-    }
-}
 
 function runSpecifcTest(testNumber, filepath, config, finalResult) {
     let result = {};
@@ -22,12 +17,12 @@ function runSpecifcTest(testNumber, filepath, config, finalResult) {
     var input, correctOutput, programOutput, verdict, message;
     correctOutput = fileCreator.readFile(pathOfOutputFile).replace(/\r?\n|\r/g, "\n").trim();
     input = fileCreator.readFile(pathOfInputFile);
-    var runProcess = child_process.spawnSync(pathOfExecutable.toString(), ['<', pathOfInputFile], {
-        timeout: timelimit,
+    let runProcess = child_process.spawnSync(pathOfExecutable.toString(), {
+        timeout: timelimit + 500,
         input: input
     });
+    programOutput = runProcess.stdout.toString().replace(/\r?\n|\r/g, "\n").trim();
     if (runProcess.status === 0) {
-        programOutput = runProcess.stdout.toString().replace(/\r?\n|\r/g, "\n").trim();
         if (programOutput === correctOutput) {
             verdict = "AC";
             message = "OK";
@@ -44,11 +39,30 @@ function runSpecifcTest(testNumber, filepath, config, finalResult) {
             programOutput: programOutput,
             correctOutput: correctOutput,
             verdict: verdict,
-            message: message
+            message: message,
         };
         finalResult.push(result);
     }
-    else console.log(`Error while running the program ${runProcess.status}`);
+    else {
+        console.log(`Stderr: ${runProcess.stderr}`);
+        console.log(`Signal: ${runProcess.signal}`);
+        if (runProcess.error !== null) {
+            console.log(`Error while running the program: ${runProcess.error.toString()}`);
+            if (runProcess.error.message.split(' ')[2] === "ETIMEDOUT") {
+                verdict = "TLE";
+                message = "Time Limit Exceeded";
+            }
+        }
+        result = {
+            testNumber: testNumber,
+            input: input,
+            programOutput: programOutput,
+            correctOutput: correctOutput,
+            verdict: verdict,
+            message: message,
+        };
+        finalResult.push(result);
+    }
 }
 
 async function runTests(flag) {
