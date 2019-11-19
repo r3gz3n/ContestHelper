@@ -2,7 +2,7 @@
 	"name": "contesthelper",
 	"displayName": "ContestHelper",
 	"description": "VS code plugin for Competitive programming",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"engines": {
 		"vscode": "^1.39.0"
 	},
@@ -80,6 +80,19 @@
 		"test": "node ./test/runTest.js"
 	},
 	"devDependencies": {
+		"@types/glob": "^7.1.1",
+		"@types/mocha": "^5.2.6",
+		"@types/node": "^10.12.21",
+		"@types/vscode": "^1.39.0",
+		"eslint": "^5.13.0",
+		"glob": "^7.1.4",
+		"mocha": "^6.1.4",
+		"typescript": "^3.3.1",
+		"vscode-test": "^1.2.0",
+		"body-parser": "^1.18.2",
+		"express": "^4.16.3"
+	},
+	"dependencies": {
 		"@types/glob": "^7.1.1",
 		"@types/mocha": "^5.2.6",
 		"@types/node": "^10.12.21",
